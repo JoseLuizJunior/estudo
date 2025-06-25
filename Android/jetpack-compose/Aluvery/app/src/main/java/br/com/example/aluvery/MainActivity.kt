@@ -1,47 +1,72 @@
 package br.com.example.aluvery
 
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.example.aluvery.ui.theme.AluveryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             AluveryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                4 {
+                    MyFirstComposable()
                 }
             }
+
         }
+
     }
 }
 
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MyFirstComposable(){
+    Column {
+        Text(
+            text = "First try"
+        )
+
+        Text(
+            text = "Second try"
+        )
+    }
+
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+@Preview(
+    name = "novo",
+    uiMode = UI_MODE_NIGHT_YES,
+    showSystemUi = true
+)
+@Preview(
+    name = "TextPreview",
+    heightDp = 200,
+    widthDp = 300,
+    showBackground = true,
+    backgroundColor = 0x551243,
+    showSystemUi = true
+)
+fun MyFirstComposablePreview(){
     AluveryTheme {
-        Greeting("Android")
+        Surface {
+            MyFirstComposable()
+        }
     }
 }
