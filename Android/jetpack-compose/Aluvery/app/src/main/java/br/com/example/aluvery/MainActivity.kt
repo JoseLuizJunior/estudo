@@ -6,10 +6,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -19,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.com.example.aluvery.ui.theme.AluveryTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,9 +35,7 @@ class MainActivity : ComponentActivity() {
                     MyFirstComposable()
                 }
             }
-
         }
-
     }
 }
 
@@ -43,12 +46,10 @@ fun MyFirstComposable(){
         Text(
             text = "First try"
         )
-
         Text(
             text = "Second try"
         )
     }
-
 }
 
 @Preview(
@@ -61,7 +62,6 @@ private fun ColumnPreview() {
         Text(text = "Texto 2")
     }
     Text(text = "Texto 3")
-
 }
 
 @Preview(
@@ -74,7 +74,6 @@ private fun RowPreview() {
         Text(text = "Texto 2")
     }
     Text(text = "Texto 3")
-
 }
 
 @Preview(
@@ -87,7 +86,6 @@ private fun BoxPreview() {
         Text(text = "Texto 2")
     }
     Text(text = "Texto 3")
-
 }
 
 @Preview(
@@ -95,24 +93,34 @@ private fun BoxPreview() {
 )
 @Composable
 private fun CustomPreview() {
-    Column {
+    Column(Modifier.fillMaxSize().background(Color.Blue)) {
         Text(text = "Texto 1")
         Text(text = "Texto 2")
-        Row {
+        Row(Modifier.background(Color.Green)) {
             Text(text = "Texto 3")
             Text(text = "Texto 4")
         }
-        Box {
-            Row {
+        Box(Modifier.background(Color.Magenta)) {
+            Row (modifier = Modifier.background(Color.DarkGray).fillMaxWidth()){
                 Text(text = "Texto 5")
                 Text(text = "Texto 6")
             }
-            Column {
+            Column (Modifier.background(Color.Red).fillMaxHeight()){
                 Text(text = "Texto 7")
                 Text(text = "Texto 8")
             }
         }
+        Row(Modifier.background(Color.Black)) {
+            Text(text = "Texto 9")
+            Text(text = "Texto 10")
+        }
     }
-
-
+    Row(Modifier.background(Color.Yellow)) {
+        Text(text = "Texto 11")
+        Text(text = "Texto 12")
+    }
+    Column (Modifier.background(Color.Cyan)) {
+        Text(text = "Texto 13")
+        Text(text = "Texto 14")
+    }
 }
