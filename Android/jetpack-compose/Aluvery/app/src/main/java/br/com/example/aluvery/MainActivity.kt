@@ -6,121 +6,134 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import br.com.example.aluvery.ui.theme.AluveryTheme
+import br.com.example.aluvery.ui.theme.Pink40
+import br.com.example.aluvery.ui.theme.Purple40
+import br.com.example.aluvery.ui.theme.Purple80
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AluveryTheme {
-                Surface {
-                    MyFirstComposable()
+                Surface (
+                    modifier = Modifier
+                    .systemBarsPadding()){
+                    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
+
+                    ProductsSection()
                 }
             }
         }
     }
 }
 
-
 @Composable
-fun MyFirstComposable(){
-    Column {
-        Text(
-            text = "First try"
-        )
-        Text(
-            text = "Second try"
-        )
-    }
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-private fun ColumnPreview() {
-    Column {
-        Text(text = "Texto 1")
-        Text(text = "Texto 2")
-    }
-    Text(text = "Texto 3")
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-private fun RowPreview() {
-    Row {
-        Text(text = "Texto 1")
-        Text(text = "Texto 2")
-    }
-    Text(text = "Texto 3")
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-private fun BoxPreview() {
-    Box {
-        Text(text = "Texto 1")
-        Text(text = "Texto 2")
-    }
-    Text(text = "Texto 3")
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-private fun CustomPreview() {
-    Column(Modifier.fillMaxSize().background(Color.Blue)) {
-        Text(text = "Texto 1")
-        Text(text = "Texto 2")
-        Row(Modifier.background(Color.Green)) {
-            Text(text = "Texto 3")
-            Text(text = "Texto 4")
-        }
-        Box(Modifier.background(Color.Magenta)) {
-            Row (modifier = Modifier.background(Color.DarkGray).fillMaxWidth()){
-                Text(text = "Texto 5")
-                Text(text = "Texto 6")
+private fun ProductItem() {
+    Surface ( shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp ){
+        Column (Modifier
+            .heightIn(250.dp, 300.dp)
+            .width(200.dp)){
+            val boxSize: Dp = 100.dp;
+            Box(modifier = Modifier
+                .height(boxSize)
+                .fillMaxWidth()
+                .background(brush = Brush.horizontalGradient(colors = listOf(Purple40, Color.Cyan)))){
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = "Imagem do produto",
+                    Modifier
+                        .size(boxSize)
+                        .offset(y = boxSize / 2)
+                        .clip(shape = CircleShape)
+                        .align(Alignment.BottomCenter)
+                )
             }
-            Column (Modifier.background(Color.Red).fillMaxHeight()){
-                Text(text = "Texto 7")
-                Text(text = "Texto 8")
+            Spacer(modifier = Modifier.height(boxSize/2))
+            Column (Modifier
+                .padding(16.dp)
+                .fillMaxWidth()){
+                Text(
+                    text = LoremIpsum(50).values.first(),
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight(700),
+                    maxLines = 2,
+                    overflow = TextOverflow .Ellipsis
+                )
+                Text(
+                    text = "R$ 14,99",
+                    Modifier.padding(top = 8.dp),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400)
+                )
             }
         }
-        Row(Modifier.background(Color.Black)) {
-            Text(text = "Texto 9")
-            Text(text = "Texto 10")
+    }
+}
+
+@Composable
+fun ProductsSection() {
+    Column {
+        Text(
+            text = "Promoções",
+            Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400)
+        )
+        Row(
+            Modifier
+                .padding(
+                    top = 8.dp,
+                    bottom = 16.dp
+                )
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ){
+            Spacer(Modifier)
+            ProductItem()
+            ProductItem()
+            ProductItem()
+            Spacer(Modifier)
         }
     }
-    Row(Modifier.background(Color.Yellow)) {
-        Text(text = "Texto 11")
-        Text(text = "Texto 12")
-    }
-    Column (Modifier.background(Color.Cyan)) {
-        Text(text = "Texto 13")
-        Text(text = "Texto 14")
-    }
+}
+
+@Preview(
+    showBackground = true
+)
+@Composable
+private fun ProductsSectionPreview() {
+    ProductsSection()
 }
