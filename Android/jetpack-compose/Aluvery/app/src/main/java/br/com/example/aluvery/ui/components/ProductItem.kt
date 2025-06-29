@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,23 +30,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.example.aluvery.R
 import br.com.example.aluvery.extensions.toBrazilianCurrency
 import br.com.example.aluvery.model.Product
-import br.com.example.aluvery.ui.theme.Purple40
 
 @Composable
 fun ProductItem(product: Product) {
-    Surface ( shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp ){
-        Column (Modifier
-            .heightIn(250.dp, 300.dp)
-            .width(200.dp)){
+    Surface(shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp) {
+        Column(
+            Modifier
+                .heightIn(250.dp, 300.dp)
+                .width(200.dp)
+        ) {
             val boxSize: Dp = 100.dp;
-            Box(modifier = Modifier
-                .height(boxSize)
-                .fillMaxWidth()
-                .background(brush = Brush.horizontalGradient(colors = listOf(Purple40, Color.Cyan)))){
+            Box(
+                modifier = Modifier
+                    .height(boxSize)
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.secondary
+                            )
+                        )
+                    )
+            ) {
                 Image(
-                    painter = painterResource(id = product.image),
+                    painter = painterResource(id = R.drawable.placeholder),
                     contentDescription = "Imagem do produto",
                     Modifier
                         .size(boxSize)
@@ -57,10 +68,12 @@ fun ProductItem(product: Product) {
 
                 )
             }
-            Spacer(modifier = Modifier.height(boxSize/2))
-            Column (Modifier
-                .padding(16.dp)
-                .fillMaxWidth()){
+            Spacer(modifier = Modifier.height(boxSize / 2))
+            Column(
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            ) {
                 Text(
                     text = product.name,
                     fontSize = 18.sp,
@@ -75,6 +88,7 @@ fun ProductItem(product: Product) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400)
                 )
+
             }
         }
     }

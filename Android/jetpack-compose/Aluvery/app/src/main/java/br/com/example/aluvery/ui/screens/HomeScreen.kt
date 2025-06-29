@@ -9,10 +9,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.example.aluvery.model.Product
 import br.com.example.aluvery.ui.components.ProductsSection
 
+
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    sections: Map<String, List<Product>>
+) {
     Column(
         Modifier
             .fillMaxSize()
@@ -20,9 +24,14 @@ fun HomeScreen(){
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Spacer(Modifier)
-        ProductsSection()
-        ProductsSection()
-        ProductsSection()
+        for (section in sections) {
+            val title = section.key
+            val products = section.value
+            ProductsSection(
+                title = title,
+                products = products
+            )
+        }
         Spacer(Modifier)
     }
 }
