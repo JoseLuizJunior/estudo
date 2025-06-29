@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,30 +38,49 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import br.com.example.aluvery.extensions.toBrazilianCurrency
+import br.com.example.aluvery.model.Product
 import br.com.example.aluvery.ui.theme.AluveryTheme
 import br.com.example.aluvery.ui.theme.Pink40
 import br.com.example.aluvery.ui.theme.Purple40
 import br.com.example.aluvery.ui.theme.Purple80
+import java.math.BigDecimal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AluveryTheme {
-                Surface (
-                    modifier = Modifier
-                    .systemBarsPadding()){
-                    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
-
-                    ProductsSection()
-                }
-            }
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
+            App()
         }
     }
 }
 
+@Preview(showSystemUi = true)
 @Composable
-private fun ProductItem() {
+fun App(){
+    AluveryTheme {
+        Surface (
+            modifier = Modifier
+                .systemBarsPadding()){
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Spacer(Modifier)
+                ProductsSection()
+                ProductsSection()
+                ProductsSection()
+                Spacer(Modifier)
+            }
+
+        }
+    }
+}
+@Composable
+private fun ProductItem(product: Product) {
     Surface ( shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp ){
         Column (Modifier
             .heightIn(250.dp, 300.dp)
@@ -70,13 +91,15 @@ private fun ProductItem() {
                 .fillMaxWidth()
                 .background(brush = Brush.horizontalGradient(colors = listOf(Purple40, Color.Cyan)))){
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = product.image),
                     contentDescription = "Imagem do produto",
                     Modifier
                         .size(boxSize)
                         .offset(y = boxSize / 2)
                         .clip(shape = CircleShape)
-                        .align(Alignment.BottomCenter)
+                        .align(Alignment.BottomCenter),
+                    contentScale = ContentScale.Crop
+
                 )
             }
             Spacer(modifier = Modifier.height(boxSize/2))
@@ -84,15 +107,15 @@ private fun ProductItem() {
                 .padding(16.dp)
                 .fillMaxWidth()){
                 Text(
-                    text = LoremIpsum(50).values.first(),
+                    text = product.name,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight(700),
                     maxLines = 2,
-                    overflow = TextOverflow .Ellipsis
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "R$ 14,99",
+                    text = product.price.toBrazilianCurrency(),
                     Modifier.padding(top = 8.dp),
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400)
@@ -107,7 +130,7 @@ fun ProductsSection() {
     Column {
         Text(
             text = "Promoções",
-            Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            Modifier.padding(start = 16.dp, end = 16.dp),
             fontSize = 20.sp,
             fontWeight = FontWeight(400)
         )
@@ -115,24 +138,32 @@ fun ProductsSection() {
             Modifier
                 .padding(
                     top = 8.dp,
-                    bottom = 16.dp
                 )
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ){
             Spacer(Modifier)
-            ProductItem()
-            ProductItem()
-            ProductItem()
+            ProductItem(Product(
+                name = "Hambúrger",
+                price = BigDecimal("14.99"),
+                image = R.drawable.burger
+            ))
+            ProductItem(Product(
+                name = "Batata frita",
+                price = BigDecimal("25.99"),
+                image = R.drawable.fries
+            ))
+            ProductItem(Product(
+                name = "Pizza",
+                price = BigDecimal("30.99"),
+                image = R.drawable.pizza
+            ))
             Spacer(Modifier)
         }
     }
 }
 
-@Preview(
-    showBackground = true
-)
 @Composable
 private fun ProductsSectionPreview() {
     ProductsSection()
