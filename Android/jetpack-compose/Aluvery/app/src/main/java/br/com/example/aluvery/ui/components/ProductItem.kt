@@ -1,6 +1,5 @@
 package br.com.example.aluvery.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.sp
 import br.com.example.aluvery.R
 import br.com.example.aluvery.extensions.toBrazilianCurrency
 import br.com.example.aluvery.model.Product
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @Composable
 fun ProductItem(product: Product) {
@@ -56,10 +59,12 @@ fun ProductItem(product: Product) {
                         )
                     )
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.placeholder),
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(product.image).crossfade(true).build(),
+                    placeholder = painterResource(R.drawable.placeholder),
                     contentDescription = "Imagem do produto",
-                    Modifier
+                    modifier = Modifier
                         .size(boxSize)
                         .offset(y = boxSize / 2)
                         .clip(shape = CircleShape)
