@@ -38,8 +38,8 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 
 @Composable
-fun ProductItem(product: Product) {
-    Surface(shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp) {
+fun ProductItem(product: Product, modifier: Modifier = Modifier) {
+    Surface(modifier, shape = RoundedCornerShape(15.dp), shadowElevation = 4.dp) {
         Column(
             Modifier
                 .heightIn(250.dp, 300.dp)

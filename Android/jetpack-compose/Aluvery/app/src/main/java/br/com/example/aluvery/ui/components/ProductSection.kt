@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.sp
 import br.com.example.aluvery.model.Product
 
 @Composable
-fun ProductsSection(title: String, products: List<Product>) {
-    Column {
+fun ProductsSection(title: String, products: List<Product>, modifier: Modifier = Modifier) {
+    Column(modifier){
         Text(
             text = title,
             Modifier.padding(start = 16.dp, end = 16.dp),
